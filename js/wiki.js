@@ -11,8 +11,6 @@ var pages = {
 };
 
 app.controller('pageViewController', function($scope, $stateParams) {
-  // $scope.pageName = $stateParams.page_name;
-  // $scope.content = pages[$scope.pageName].content;
   $scope.page = pages[$stateParams.page_name];
   if(!$scope.page){
     $scope.page = new WikiPage($stateParams.page_name, 'The page doesn\'t exist');
@@ -21,11 +19,11 @@ app.controller('pageViewController', function($scope, $stateParams) {
 
 
 app.controller('pageEditController', function($scope, $stateParams) {
-  // $scope.pageName = $stateParams.pagename;
-  // $scope.content = pages[$scope.pageName].content;
   $scope.page = pages[$stateParams.page_name];
+});
 
-
+app.controller('pageSaveController', function($scope, $stateParams) {
+  $scope.page = pages[$stateParams.page_name];
 });
 
 app.config(function($stateProvider, $urlRouterProvider) {
@@ -38,9 +36,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state({
       name: 'page_edit',
-      url: '/page_edit',
+      url: '/{page_name}/page_edit',
       templateUrl: 'page_edit.html',
       controller: 'pageEditController'
+    })
+    .state({
+      name: 'save_page',
+      url: '/{page_name}/save_page',
+      templateUrl: 'save.html',
+      controller: 'pageSaveController'
     });
 
     $urlRouterProvider.otherwise('/');
